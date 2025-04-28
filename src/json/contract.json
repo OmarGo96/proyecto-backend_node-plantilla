@@ -1,0 +1,49 @@
+{
+    "contractNumber": "DH-32243D",
+    "devCode": "UVSI",
+    "country": "United States",
+    "state": "Minnesota",
+    "city": "Lakeville",
+    "zip": "55024",
+    "signDate": "2021-11-04",
+    "firstContactDate": "2021-12-21",
+    "language": "1",
+    "certificates": [
+        {
+            "isOwner": "1",
+            "name": "Demo",
+            "lastname": "Prueba",
+            "email": "demo@mail.com",
+            "telephone": "9841411142",
+            "fee": "1799.00",
+            "currency": "USD",
+            "card": {
+                "type": "VISA",
+                "cname": "Demo Prueba",
+                "cn1": "4242",
+                "cn2": "6564",
+                "cn3": "4329",
+                "cn4": "3243",
+                "year": "2029",
+                "month": "11",
+                "cvv": "323",
+                "chargeOn": "2021-12-13",
+                "c_address": "calle x, col. centro, Cancun, Q.Roo",
+                "c_country": "United States",
+                "c_state": "Minnesota",
+                "c_city": "Lakeville",
+                "c_zip": "55024"
+            }
+        },
+        {
+            "isOwner": "0",
+            "name": "Demo2",
+            "lastname": "Prueba2",
+            "email": "demo@mail.com",
+            "telephone": "9841411142",
+            "fee": "1799.00",
+            "currency": "USD",
+            "card": null
+        }
+    ]
+}

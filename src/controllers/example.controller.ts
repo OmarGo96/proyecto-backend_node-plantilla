@@ -2,6 +2,7 @@ import { Response, Request } from 'express'
 import { JsonResponse } from '../enums/jsonResponse'
 import { Crypto } from '../helpers/crypto'
 import { FileManager } from '../helpers/files'
+import csv from 'csv-parser'
 import jwt from 'jsonwebtoken'
 import fs from 'fs'
 
@@ -21,7 +22,7 @@ export class ExampleController {
 
     public async awsS3Download(req: Request, res: Response) {
         let result = await ExampleController.fileManager.download()
-        
+
         return res.status(JsonResponse.OK).contentType('application/pdf').end(result, 'binary')
     }
 
@@ -51,5 +52,16 @@ export class ExampleController {
                 { 'name': 'Adele', 'password': 'Adele123--' },
             ]
         })
+    }
+
+    public async readExcel(req: Request, res: Response) {
+        let info = []
+        let excel = fs.createReadStream('./files/excel/example.csv')
+        excel.pipe(csv())
+            .on('data', (data) => info.push(data))
+            .on('end', () => {
+                console.log(info);
+            });
+
     }
 }

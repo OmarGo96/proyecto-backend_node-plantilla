@@ -27,6 +27,8 @@ export class Routes {
             .get(this.exampleController.awsS3Download)
         app.route('/api/aws/s3/destroy')
             .get(this.exampleController.awsS3Destroy)
+        app.route('/api/read-excel')
+            .get(this.exampleController.readExcel)
 
         /* app.get("/debug-sentry", function mainHandler(req, res) {
             throw new Error("My first Sentry error!");

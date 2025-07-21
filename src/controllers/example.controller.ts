@@ -62,6 +62,24 @@ export class ExampleController {
             .on('end', () => {
                 console.log(info);
             });
+    }
 
+    public async encrypt(req: Request, res: Response) {
+        let result = await ExampleController.crypto.encryptInformation(req.body)
+
+        return res.status(200).json({
+            ok: true,
+            data: result.data,
+            key: result.key
+        })
+    }
+
+    public async decrypt(req: Request, res: Response) {
+        let result = await ExampleController.crypto.decryptInformation(req.body.key, req.body.data)
+
+        return res.status(200).json({
+            ok: true,
+            data: result.data
+        })
     }
 }

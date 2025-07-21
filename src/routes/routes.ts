@@ -19,16 +19,13 @@ export class Routes {
 
         app.route('/api/example')
             .get(/*En esta parte agregamos los middlewares que sean necesarios, ejemplo: CheckHeaders.validateClientJWT*,*/ this.exampleController.example)
-        app.route('/api/users')
-            .get(this.exampleController.users)
-        app.route('/api/aws/s3/upload')
-            .get(this.exampleController.awsS3Upload)
-        app.route('/api/aws/s3/download')
-            .get(this.exampleController.awsS3Download)
-        app.route('/api/aws/s3/destroy')
-            .get(this.exampleController.awsS3Destroy)
-        app.route('/api/read-excel')
-            .get(this.exampleController.readExcel)
+        app.route('/api/users').get(this.exampleController.users)
+        app.route('/api/aws/s3/upload').get(this.exampleController.awsS3Upload)
+        app.route('/api/aws/s3/download').get(this.exampleController.awsS3Download)
+        app.route('/api/aws/s3/destroy').get(this.exampleController.awsS3Destroy)
+        app.route('/api/read-excel').get(this.exampleController.readExcel)
+        app.route('/api/encrypt').post(this.exampleController.encrypt)
+        app.route('/api/decrypt').post(this.exampleController.decrypt)
 
         /* app.get("/debug-sentry", function mainHandler(req, res) {
             throw new Error("My first Sentry error!");

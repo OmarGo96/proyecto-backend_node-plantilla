@@ -4,7 +4,7 @@
   "description": "_Dicho desarrollo esta planificado para ser un modelo a seguir para los proyectos futuros, en los cuales necesitemos que el backend este escrito con el lenguaje NodeJs._",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --watch"
   },
   "repository": {
     "type": "git",
@@ -21,6 +21,7 @@
     "@aws-sdk/credential-providers": "^3.501.0",
     "@sentry/cli": "^2.40.0",
     "@sentry/node": "^8.48.0",
+    "@types/moment": "^2.13.0",
     "axios": "^1.6.2",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
@@ -45,14 +46,18 @@
     "validator": "^13.11.0"
   },
   "devDependencies": {
+    "@jest/globals": "^30.0.4",
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
     "@types/express-fileupload": "^1.4.4",
     "@types/express-useragent": "^1.0.5",
+    "@types/jest": "^30.0.0",
     "@types/jsonwebtoken": "^9.0.5",
     "@types/node": "^20.10.4",
     "@types/sequelize": "^4.28.19",
     "@types/validator": "^13.11.7",
+    "jest": "^30.0.4",
+    "ts-jest": "^29.4.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   }

@@ -1,29 +1,30 @@
-/** Importamos librerías a utilizar */
 import fs from 'fs'
 import jwt from 'jsonwebtoken'
 import Cryptr from 'cryptr'
 import { Response, Request, NextFunction } from 'express'
 
+/**
+ * Middleware para validación de cabeceras de autenticación en peticiones HTTP.
+ * Incluye validación de JWT y pruebas de cabecera personalizada.
+ */
 export class CheckHeaders {
-    /** Este middleware valida que la cabecera de autenticación sea correcta */
-    static validateJWT(req: Request, res: Response, next: NextFunction) {
-        /* Obtenemos la cabecera de autenticación */
-        let token = req.get('Authorization')
-        let public_key
-        /** Dependiendo del modo de desarrollo en el que estemos, vamos a obtener
-         * las llaves publicas y privadas para desencriptar la información 
-         * obteneida en el token.
-         */
-        if (process.env.MODE != 'dev') {
-            public_key = fs.readFileSync(process.env.PUBLIC_KEY, 'utf8')
-        } else {
-            public_key = fs.readFileSync('./src/keys/public.pem', 'utf8')
-        }
 
-        /** Hacemos uso del controlador Crypter y de sus funciones */
+    /**
+     * Valida el JWT presente en la cabecera Authorization.
+     * Si es válido, agrega el user_id desencriptado al body de la petición.
+     * @param req Objeto Request de Express
+     * @param res Objeto Response de Express
+     * @param next Siguiente función middleware
+     */
+    static validateJWT(req: Request, res: Response, next: NextFunction) {
+
+        let token = req.get('Authorization')
+        let public_key = (process.env.MODE != 'dev') ? 
+        fs.readFileSync(process.env.PUBLIC_KEY, 'utf8') : 
+        fs.readFileSync('./src/keys/public.pem', 'utf8')
+
         let cryptr = new Cryptr(process.env.CRYPTR_KEY)
         try {
-            /* Primero verificamos que el token proporcionado sea valido */
             let decoded: any = jwt.verify(token, public_key)
 
             if (!decoded.user_id) {
@@ -33,23 +34,25 @@ export class CheckHeaders {
                 })
             }
 
-            /*Desencriptamos información deseada del usuario*/
             let user_id = cryptr.decrypt(decoded.user_id)
-            /*Retornamos el id del usuario decodificado junto con el token */
             req.body.user_id = +user_id
+
         } catch (e) {
-            /*Cachamos los errores posibles*/
             return res.status(403).json({
                 ok: false,
                 errors: [{ message: 'Existe el siguiente problema con la cabecera: ' + e }]
             })
         }
-        /** Si se cumple las validaciones correctas, pasamos a la función requerida */
         next()
     }
 
+    /**
+     * Middleware de prueba para validar un token estático en la cabecera Authorization.
+     * @param req Objeto Request de Express
+     * @param res Objeto Response de Express
+     * @param next Siguiente función middleware
+     */
     static test(req: Request, res: Response, next: NextFunction) {
-        /* Obtenemos la cabecera de autenticación */
         let token = req.get('Authorization')
 
         if (token == null) {
@@ -65,7 +68,6 @@ export class CheckHeaders {
                 errors: [{ message: 'La cabecera de autenticación no es valida' }]
             })
         }
-        /** Si se cumple las validaciones correctas, pasamos a la función requerida */
         next()
     }
 }

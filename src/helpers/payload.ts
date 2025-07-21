@@ -1,21 +1,24 @@
-/* Libraries to create the jwt */
 import jwt from 'jsonwebtoken'
 import fs from 'fs'
 import moment from 'moment'
 import Cryptr from 'cryptr'
 import * as Sentry from "@sentry/node";
 
+
+/**
+ * Clase para la generación de tokens JWT firmados y cifrado de identificadores de usuario.
+ */
 export class Payload {
 
+    /**
+     * Crea un token JWT firmado y cifra el user_id usando Cryptr.
+     * @param data Objeto que debe contener la propiedad user_id
+     * @returns Objeto con el token generado o error
+     */
     public createToken(data) {
         try {
-            let private_key: any
-
-            if (process.env.MODE != 'dev') {
-                private_key = fs.readFileSync(process.env.PRIVATE_KEY, 'utf8')
-            } else {
-                private_key = fs.readFileSync('./src/keys/private.pem', 'utf8')
-            }
+            let private_key: any = (process.env.MODE != 'dev') ? fs.readFileSync(process.env.PRIVATE_KEY, 'utf8') : 
+            fs.readFileSync('./src/keys/private.pem', 'utf8')
 
             let cryptr = new Cryptr(process.env.CRYPTR_KEY)
 
@@ -32,8 +35,5 @@ export class Payload {
             console.log('Error payload a las: ' + moment().format('YYYY-MM-DD HH:mm:ss') + ', ' + e)
             return { ok: false }
         }
-
-
-
     }
 }

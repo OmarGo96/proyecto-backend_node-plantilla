@@ -3,20 +3,28 @@ import hbs from 'nodemailer-express-handlebars';
 import path from 'path';
 import moment from 'moment'
 import * as Sentry from "@sentry/node";
-
+/**
+ * Clase para el envío de correos electrónicos usando nodemailer y plantillas handlebars.
+ */
 export class Mailer {
 
-    private transporter
-    private hbsConfig
 
+    /** Transportador de nodemailer para el envío de correos */
+    private transporter;
+    /** Configuración de handlebars para plantillas de correo */
+    private hbsConfig;
+
+    /**
+     * Inicializa el transporter de nodemailer y la configuración de handlebars.
+     */
     constructor() {
         this.transporter = nodemailer.createTransport({
             host: process.env.EMAIL_HOST,
             port: process.env.EMAIL_PORT,
-            secure: true, // true for 465, false for other ports
+            secure: true,
             auth: {
-                user: process.env.EMAIL_USER, // generated ethereal user
-                pass: process.env.EMAIL_PASSWORD, // generated ethereal password
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASSWORD
             },
         })
 
@@ -32,10 +40,14 @@ export class Mailer {
         };
     }
 
+
+    /**
+     * Envía un correo electrónico usando una plantilla handlebars.
+     * @param data Objeto con las propiedades: email, subject, template, context
+     * @returns Objeto con estado y error si ocurre
+     */
     public async send(data) {
-
-        let config = this.transporter.use('compile', hbs(this.hbsConfig))
-
+        //let config = this.transporter.use('compile', hbs(this.hbsConfig))
         let mailOptions = {
             from: process.env.EMAIL_USER,
             to: data.email,

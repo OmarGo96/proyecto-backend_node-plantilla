@@ -1,21 +1,28 @@
 import { fromEnv } from "@aws-sdk/credential-providers";
 import { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
 import fs from 'fs'
-import moment from 'moment'
 import colors from 'colors'
+import moment from 'moment';
 import * as Sentry from "@sentry/node";
 
 export class FileManager {
+    /** Cliente de AWS S3 */
+    private s3Client: S3Client;
 
-    private s3Client
-
+    /**
+     * Inicializa el cliente de AWS S3 con las credenciales y región configuradas.
+     */
     constructor() {
         this.s3Client = new S3Client({
             credentials: fromEnv(),
             region: process.env.AWS_REGION
-        })
+        });
     }
 
+    /**
+     * Sube un archivo PDF a un bucket de S3.
+     * @returns Objeto con estado y respuesta de AWS o error
+     */
     public upload() {
         let path: string = process.env.FILE_PATH + 'DT1-009928.pdf'
         let file: any = null
@@ -42,6 +49,10 @@ export class FileManager {
         }
     }
 
+    /**
+     * Descarga un archivo PDF desde un bucket de S3.
+     * @returns Objeto con estado y el PDF en bytes o error
+     */
     public async download() {
 
         try {
@@ -52,7 +63,6 @@ export class FileManager {
 
             const response = await this.s3Client.send(command)
             const pdf = await response.Body.transformToByteArray();
-            //const new_file = await fs.writeFileSync(process.env.FILE_PATH + 'SRX-001076.pdf', cano)
             return { ok: true, pdf }
 
         } catch (e) {
@@ -63,6 +73,10 @@ export class FileManager {
 
     }
 
+    /**
+     * Elimina un archivo PDF de un bucket de S3.
+     * @returns Objeto con estado de la operación o error
+     */
     public async destroy() {
 
         try {
@@ -78,7 +92,5 @@ export class FileManager {
             Sentry.captureException(e);
             console.error(colors.red('Error AWS a las: ' + moment().format('YYYY-MM-DD HH:mm:ss') + ', ' + e));
         }
-
-
     }
 }

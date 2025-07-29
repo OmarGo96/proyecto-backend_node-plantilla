@@ -1,108 +1,102 @@
-# Plantilla base para desarrollo de proyectos con NodeJs (v20.10.0) y TypeScript (v5.3.3)
+# GS Backend Node Plantilla 📗
 
-_Dicho desarrollo esta planificado para ser un modelo a seguir para los proyectos futuros, en los cuales necesitemos que el backend este escrito con el lenguaje NodeJs._
+Backend base para la gestión de recursos empresariales basado en el lengauje NodeJs.
 
-## Comenzando 🚀
+## Descripción 🦥
 
-_Modo desarrollo: Deberas descargar cada uno de los componentes de la plantilla._
+Este proyecto es una API RESTful desarrollada en **Node.js** (v20.x) y **TypeScript** (v5.x) pensada como plantilla para futuros desarrollos backend. Incluye arquitectura modular, integración con Sentry, Sequelize como ORM, middlewares de seguridad y utilidades para despliegue profesional.
 
-_Modo producción: Es de carácter obligatorio que los siguientes archivos esten fuera del proyecto: .env, certificates, keys. Estos ficheros deberan estar referenciados en sus carpetas correspondientes (lease el archivo .env)._
+## Tecnologías y librerías principales 🛠
 
+- **@aws-sdk/client-s3**: SDK oficial de AWS para almacenamiento de archivos en S3.
+- **@aws-sdk/credential-providers**: Proveedores de credenciales AWS.
+- **@sentry/cli** y **@sentry/node**: Monitoreo y reporte de errores.
+- **axios**: Cliente HTTP para peticiones externas.
+- **bcrypt**: Hash seguro de contraseñas.
+- **body-parser**: Middleware para parsear cuerpos de peticiones.
+- **colors**: Colorea la salida en consola.
+- **cors**: Middleware para habilitar CORS.
+- **dotenv**: Carga variables de entorno desde `.env`.
+- **express**: Framework web principal.
+- **express-fileupload**: Middleware para subida de archivos.
+- **express-rate-limit**: Limita la cantidad de peticiones por IP.
+- **express-useragent**: Detecta el user-agent de las peticiones.
+- **helmet**: Seguridad HTTP.
+- **jsonwebtoken**: Autenticación y autorización con JWT.
+- **mariadb** y **mysql2**: Drivers para bases de datos relacionales.
+- **mathjs**: Operaciones matemáticas avanzadas.
+- **nodemailer** y **nodemailer-express-handlebars**: Envío de correos y plantillas.
+- **read-excel-file** y **csv-parser**: Procesamiento de archivos Excel y CSV.
+- **sequelize**: ORM para bases de datos SQL.
+- **socket.io**: Comunicación en tiempo real.
+- **validator**: Validación y saneamiento de datos.
 
-### Pre-requisitos 📋
+## Estructura del proyecto 🪱
 
-1- Instalar NodeJs.
-
-2- Instalar Apache o NGINX.
-
-3- Instalar Mysql.
-
-4- Contar con un puerto asignado, ya que en el se basara el servidor.
-
-5- Generar llaves publicas y privadas para hacer uso de ellas en el servidor (se recomienda instalar lo siguiente: https://slproweb.com/index.html).
-
-
-### Instalación 🔧
-
-1- Correr el siguiente comando:
 ```
-npm install
-```
-2- Modificar el puerto para hacer uso de el (esto se ubica en el archivo .env y encobtrarás un valor llamado PORT).
-
-3- Guardar las llaves publicas y privadas en la carpeta keys.
-
-## Ejecutando las pruebas ⚙️
-
-_Para poder testear cualquier ruta creada en el sistema, es necesario hacer la peticiones a la siguiente ruta:_
-
-http://localhost:no_puerto/api
-
-## Despliegue 📦
-
-1- Descargar la rama "production".
-2- Instalar las dependencias correspndientes con: 
-```
-npm install
-```
-3- Correr el siguiente comando en la raíz del proyecto (esto generará una carpeta llamada dist):
-```
-tsc -w
-```
-5- Incorporrar los archivos: .env, certificates y keys, en las carpetas correspondientes del servidor.
-4- Cambiar el valor de MODE=DEV A MODE=PRODUCTION del archivo .env
-5- Dirigirse al archivo app.js el cual se encontrará en dist/config y comentar la siguiente línea:
-```
-require('dotenv').config()
-```
-Una vez comentada, es necesario descomentar la siguiente líena: 
-```
-require('dotenv').config({ path: '/root/envs/nombre_de_proyecto/.env' })
-```
-5- Borrar la carpeta src (sudo rm -R src).
-
-6- Probar que la aplicación este corriendo debidamente con nodemon (esta ya estará instalada en el servidor).
-
-7- Matar el proceso de nodemon.
-
-8- Agregar la API a la lista de forever (esto ocacionara que la app este en producción), el comando a utilizar será: 
-```
-forever start --uid "nombre_del_proyecto" --minUptime 1000 -e error.log -o out.log -a dist/server.js
+src/
+  config/         # Configuración principal, base de datos, relaciones
+  controllers/    # Controladores de rutas y lógica de negocio
+  enums/          # Enumeraciones usadas en el sistema
+  helpers/        # Funciones y utilidades auxiliares
+  interfaces/     # Interfaces TypeScript para los modelos
+  middlewares/    # Middlewares de Express
+  models/         # Modelos Sequelize
+  queries/        # Consultas y operaciones sobre la base de datos
+  routes/         # Definición de rutas y agrupadores
+  utils/          # Utilidades globales (logger, etc)
+  server.ts       # Punto de entrada del servidor
 ```
 
-9- En dado caso de necesitar abrir un puerto, favor de contactar al administrador.
+## Instalación ⛩
 
-## Construido con 🛠️
+1. Clona el repositorio:
+   ```bash
+   git clone https://github.com/GC-Sistemas/gs-backend_node-plantilla.git
+   ```
 
-_A continuación se describen las librerías base a utilizar:_
+2. Instala las dependencias:
+   ```bash
+   npm install
+   ```
 
-* [axios](https://www.npmjs.com/package/axios) - Promesa basado en el cliente HTTP el cual nos ayudara a realizar peticones a otros servidores.
-* [body-parser](https://www.npmjs.com/package/body-parser) - Facilita a parsear los datos que nos proporcione el cliente.
-* [cors](https://www.npmjs.com/package/cors) -  Proporcionar un middleware Connect/Express que se puede usar para habilitar CORS con varias opciones.
-* [dotenv](https://www.npmjs.com/package/body-parser) - Módulo de dependencia "cero" que carga variables de entorno desde un archivo .env.
-* [express](https://www.npmjs.com/package/express) - Framework para nodejs.
-* [express-fileupload](https://www.npmjs.com/package/express-fileupload) - Middleware simple que ayuda a cargar archivos.
-* [express-useragent](https://www.npmjs.com/package/express-useragent) - Middleware de agente de usuario para NodeJS/ExpressJS que expone los detalles del agente de usuario a su aplicación y vistas.
-* [helmet](https://www.npmjs.com/package/helmet) - Proteger a las aplicaciones basadas en Express, configurando varios encabezados HTTP.
-* [jwt](https://www.npmjs.com/package/jsonwebtoken) - Servicio que brinda funciones para crea tokens de autenticación.
-* [mathjs](https://www.npmjs.com/package/mathjs) - Facilita la operación de calculos.
-* [mysql2](https://www.npmjs.com/package/mysql2) - Asistente que nos ayuda a trabajar con bases de datos MYSQL/MariaDB.
-* [sequelize](https://www.npmjs.com/package/sequelize) - ORM que ayuda a manipular cualquier tipo de base de datos relacional.
-* [socket.io](https://www.npmjs.com/package/socket.io) - Posibilita establecer conexiones en tiempo real entre el servidor y el cliente.
-* [validator](https://www.npmjs.com/package/validator) - Valida datos proporcionados.
+3. Configura las variables de entorno en un archivo `.env` en la raíz del proyecto.
 
-## Versionado 📌
+## Uso
 
-Para todas las versiones disponibles, mira los [tags en este repositorio]
+- Compila el proyecto en modo watch:
+  ```bash
+  npx tsc -w
+  ```
 
-## Autores ✒️
+- Inicia el servidor de desarrollo:
+  ```bash
+  npm run dev
+  ```
+  o bien:
+  ```bash
+  nodemon dist/server.js
+  ```
 
-_OmarGo96_
+- El servidor estará disponible en `http://localhost:3000` (o el puerto configurado).
 
-## Licencia 📄
+## Versiones #
 
-Este proyecto está bajo la Licencia MIT
+- **TypeScript:** v5.x
+- **Node.js:** v20.x o superior
 
-## Expresiones de Gratitud 🎁
+> **Nota:** Todas las rutas pueden requerir autenticación JWT y permisos según el rol del usuario.
 
-* Invita una cerveza 🍺 o un café ☕ a alguien del equipo.
+## Contribución
+
+1. Haz un fork del repositorio.
+2. Crea una rama para tu feature o fix.
+3. Haz tus cambios y abre un Pull Request.
+
+## Licencia ✅
+
+MIT
+
+---
+
+**Desarrollado por OmarGo96 /

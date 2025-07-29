@@ -13,7 +13,7 @@ export class ExampleController {
     static fileManager: FileManager = new FileManager()
 
     public async awsS3Upload(req: Request, res: Response) {
-        let result = await ExampleController.fileManager.upload()
+        let result = await ExampleController.fileManager.upload(req, 'CONTRACT')
 
         return res.status(200).json({
             ok: true
@@ -21,17 +21,9 @@ export class ExampleController {
     }
 
     public async awsS3Download(req: Request, res: Response) {
-        let result = await ExampleController.fileManager.download()
+        let result = await ExampleController.fileManager.download('example.pdf', 'CONTRACT')
 
         return res.status(JsonResponse.OK).contentType('application/pdf').end(result, 'binary')
-    }
-
-    public async awsS3Destroy(req: Request, res: Response) {
-        let result = await ExampleController.fileManager.destroy()
-
-        return res.status(200).json({
-            ok: true
-        })
     }
 
     public async example(req: Request, res: Response) {
